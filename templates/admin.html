@@ -1,1 +1,85 @@
-<html><body>Admin Panel</body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard - Loft Country</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f8f8f8;
+      padding: 30px;
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #27ae60;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+    .download-button {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .download-button a {
+      padding: 10px 20px;
+      background: #2980b9;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .download-button a:hover {
+      background: #2471a3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Registered Campers</h1>
+  <div class="download-button">
+    <a href="/admin/download">⬇️ Download CSV</a>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Parent Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Child Name</th>
+        <th>Age</th>
+        <th>Emergency Contact</th>
+        <th>Emergency Phone</th>
+        <th>Allergies</th>
+        <th>Medical</th>
+        <th>Weeks</th>
+        <th>Fridays</th>
+        <th>Waiver Signed</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in data %}
+      <tr>
+        {% for item in row %}
+        <td>{{ item }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
