@@ -23,3 +23,127 @@
       margin-top: 10px;
     }
     input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #219150;
+    }
+    .waiver-box {
+      background: #fff;
+      padding: 15px;
+      margin-top: 30px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+  <script>
+    let childCount = 1;
+    function addChild() {
+      const wrapper = document.getElementById('children');
+      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
+      const div = document.createElement('div');
+      div.className = 'child-section';
+      div.innerHTML = template;
+      wrapper.appendChild(div);
+      childCount++;
+      document.getElementById('children_count').value = childCount;
+    }
+  </script>
+</head>
+<body>
+  <h1>Loft Country Camp Registration</h1>
+  <form method="POST" action="/submit">
+    <label>Parent Name: <input name="parent_name" required></label>
+    <label>Email: <input type="email" name="email" required></label>
+    <label>Phone: <input name="phone" required></label>
+
+    <input type="hidden" id="children_count" name="children_count" value="1">
+    <div id="children">
+      <div class="child-section">
+        <label>Camper Name: <input name="child_0_name" required></label>
+        <label>Age: <input type="number" name="child_0_age" required></label>
+        <label>Emergency Contact Name: <input name="child_0_emergency_contact" required></label>
+        <label>Emergency Contact Phone: <input name="child_0_emergency_phone" required></label>
+        <label>Allergies: <textarea name="child_0_allergies"></textarea></label>
+        <label>Medical Info: <textarea name="child_0_medical"></textarea></label>
+        <label>Camp Weeks (select all that apply):<br>
+          <select name="child_0_weeks" multiple size="6" required>
+            <option value="July 7–10">July 7–10</option>
+            <option value="July 14–17">July 14–17</option>
+            <option value="July 21–25 (All Girls)">July 21–25 (All Girls)</option>
+            <option value="July 28–31">July 28–31</option>
+            <option value="August 11–14">August 11–14</option>
+            <option value="August 18–21">August 18–21</option>
+            <option value="July 3–4">July 3–4 (Morning Camp)</option>
+            <option value="August 5–6">August 5–6 (Morning Camp)</option>
+            <option value="August 7–8">August 7–8 (Morning Camp)</option>
+          </select>
+        </label>
+        <label><input type="checkbox" name="child_0_friday_July 7–10"> Add Friday for July 7–10</label>
+        <label><input type="checkbox" name="child_0_friday_July 14–17"> Add Friday for July 14–17</label>
+        <label><input type="checkbox" name="child_0_friday_July 21–25 (All Girls)"> Add Friday for July 21–25</label>
+        <label><input type="checkbox" name="child_0_friday_July 28–31"> Add Friday for July 28–31</label>
+        <label><input type="checkbox" name="child_0_friday_August 11–14"> Add Friday for August 11–14</label>
+        <label><input type="checkbox" name="child_0_friday_August 18–21"> Add Friday for August 18–21</label>
+      </div>
+    </div>
+
+    <script type="text/template" id="child_template">
+      <div class="child-section">
+        <label>Camper Name: <input name="child___INDEX__name" required></label>
+        <label>Age: <input type="number" name="child___INDEX__age" required></label>
+        <label>Emergency Contact Name: <input name="child___INDEX__emergency_contact" required></label>
+        <label>Emergency Contact Phone: <input name="child___INDEX__emergency_phone" required></label>
+        <label>Allergies: <textarea name="child___INDEX__allergies"></textarea></label>
+        <label>Medical Info: <textarea name="child___INDEX__medical"></textarea></label>
+        <label>Camp Weeks (select all that apply):<br>
+          <select name="child___INDEX__weeks" multiple size="6" required>
+            <option value="July 7–10">July 7–10</option>
+            <option value="July 14–17">July 14–17</option>
+            <option value="July 21–25 (All Girls)">July 21–25 (All Girls)</option>
+            <option value="July 28–31">July 28–31</option>
+            <option value="August 11–14">August 11–14</option>
+            <option value="August 18–21">August 18–21</option>
+            <option value="July 3–4">July 3–4 (Morning Camp)</option>
+            <option value="August 5–6">August 5–6 (Morning Camp)</option>
+            <option value="August 7–8">August 7–8 (Morning Camp)</option>
+          </select>
+        </label>
+        <label><input type="checkbox" name="child___INDEX__friday_July 7–10"> Add Friday for July 7–10</label>
+        <label><input type="checkbox" name="child___INDEX__friday_July 14–17"> Add Friday for July 14–17</label>
+        <label><input type="checkbox" name="child___INDEX__friday_July 21–25 (All Girls)"> Add Friday for July 21–25</label>
+        <label><input type="checkbox" name="child___INDEX__friday_July 28–31"> Add Friday for July 28–31</label>
+        <label><input type="checkbox" name="child___INDEX__friday_August 11–14"> Add Friday for August 11–14</label>
+        <label><input type="checkbox" name="child___INDEX__friday_August 18–21"> Add Friday for August 18–21</label>
+      </div>
+    </script>
+
+    <button type="button" onclick="addChild()">Add Another Child</button>
+
+    <div class="waiver-box">
+      <h2>Waiver Agreement</h2>
+      <p>
+        I, the parent or guardian, understand and acknowledge the risks associated with participation
+        in Loft Country Children’s Day Camps. I release Loft Country Farms and its staff from any liability
+        for injuries, illness, or accidents. I confirm that I have provided all relevant medical and emergency
+        information and agree to the terms below.
+      </p>
+      <label><input type="checkbox" name="waiver" required> I agree to the waiver terms above</label>
+    </div>
+
+    <button type="submit">Submit Registration</button>
+  </form>
+</body>
+</html>
