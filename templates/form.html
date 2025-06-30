@@ -5,134 +5,21 @@
   <style>
     body {
       font-family: sans-serif;
-      background: #f9f9f9;
+      background: #f0f0f0;
       padding: 20px;
     }
-    h1 {
+    h1, h2 {
       color: #2c3e50;
     }
     .child-section {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 15px;
       background: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
     label {
       display: block;
       margin-top: 10px;
     }
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #27ae60;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #219150;
-    }
-  </style>
-  <script>
-    let childCount = 1;
-    function addChild() {
-      const wrapper = document.getElementById('children');
-      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
-      const div = document.createElement('div');
-      div.className = "child-section";
-      div.innerHTML = template;
-      wrapper.appendChild(div);
-      childCount++;
-      document.getElementById('children_count').value = childCount;
-    }
-  </script>
-</head>
-<body>
-  <h1>Loft Country Camp Registration</h1>
-  <form method="POST" action="/submit">
-    <label>Parent Name: <input name="parent_name" required></label>
-    <label>Email: <input type="email" name="email" required></label>
-    <label>Phone: <input name="phone" required></label>
-
-    <input type="hidden" id="children_count" name="children_count" value="1">
-    <div id="children">
-      <div class="child-section">
-        <div id="child_template" style="display:none;">
-          <label>Camper Name: <input name="child___INDEX__name" required></label>
-          <label>Age: <input type="number" name="child___INDEX__age" required></label>
-          <label>Emergency Contact Name: <input name="child___INDEX__emergency_contact" required></label>
-          <label>Emergency Contact Phone: <input name="child___INDEX__emergency_phone" required></label>
-          <label>Allergies: <textarea name="child___INDEX__allergies"></textarea></label>
-          <label>Medical Info: <textarea name="child___INDEX__medical"></textarea></label>
-          <label>Camp Type:
-            <select name="child___INDEX__camp_type" required>
-              <option value="">-- Select --</option>
-              <option value="Summer Morning Camp">Summer Morning Camp (Ages 4–6)</option>
-              <option value="Summer Day Camp">Summer Day Camp (Ages 7–12)</option>
-            </select>
-          </label>
-          <label>Weeks (select all that apply):
-            <select name="child___INDEX__weeks" multiple required>
-              <optgroup label="Morning Camps">
-                <option value="July 3–4">July 3–4</option>
-                <option value="August 5–6">August 5–6</option>
-                <option value="August 7–8">August 7–8</option>
-              </optgroup>
-              <optgroup label="Day Camps">
-                <option value="July 7–10">July 7–10</option>
-                <option value="July 14–17">July 14–17</option>
-                <option value="July 21–25 (All Girls)">July 21–25 (All Girls)</option>
-                <option value="July 28–31">July 28–31</option>
-                <option value="August 11–14">August 11–14</option>
-                <option value="August 18–21">August 18–21</option>
-              </optgroup>
-            </select>
-          </label>
-          <label><input type="checkbox" name="child___INDEX__friday_July 7–10"> Add Friday (for July 7–10)?</label>
-        </div>
-        <script>document.getElementById('child_template').style.display = 'block';</script>
-        <label>Camper Name: <input name="child_0_name" required></label>
-        <label>Age: <input type="number" name="child_0_age" required></label>
-        <label>Emergency Contact Name: <input name="child_0_emergency_contact" required></label>
-        <label>Emergency Contact Phone: <input name="child_0_emergency_phone" required></label>
-        <label>Allergies: <textarea name="child_0_allergies"></textarea></label>
-        <label>Medical Info: <textarea name="child_0_medical"></textarea></label>
-        <label>Camp Type:
-          <select name="child_0_camp_type" required>
-            <option value="">-- Select --</option>
-            <option value="Summer Morning Camp">Summer Morning Camp (Ages 4–6)</option>
-            <option value="Summer Day Camp">Summer Day Camp (Ages 7–12)</option>
-          </select>
-        </label>
-        <label>Weeks (select all that apply):
-          <select name="child_0_weeks" multiple required>
-            <optgroup label="Morning Camps">
-              <option value="July 3–4">July 3–4</option>
-              <option value="August 5–6">August 5–6</option>
-              <option value="August 7–8">August 7–8</option>
-            </optgroup>
-            <optgroup label="Day Camps">
-              <option value="July 7–10">July 7–10</option>
-              <option value="July 14–17">July 14–17</option>
-              <option value="July 21–25 (All Girls)">July 21–25 (All Girls)</option>
-              <option value="July 28–31">July 28–31</option>
-              <option value="August 11–14">August 11–14</option>
-              <option value="August 18–21">August 18–21</option>
-            </optgroup>
-          </select>
-        </label>
-        <label><input type="checkbox" name="child_0_friday_July 7–10"> Add Friday (for July 7–10)?</label>
-      </div>
-    </div>
-
-    <button type="button" onclick="addChild()">Add Another Child</button>
-    <label><input type="checkbox" name="waiver" required> I agree to the waiver terms</label>
-    <button type="submit">Submit Registration</button>
-  </form>
-</body>
-</html>
+    input, select, textarea {
