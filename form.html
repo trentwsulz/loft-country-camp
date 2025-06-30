@@ -12,19 +12,6 @@
     button:hover { background: #219150; }
     .waiver-box { background: #fff; padding: 15px; margin-top: 30px; border: 1px solid #ccc; border-radius: 6px; }
   </style>
-  <script>
-    let childCount = 1;
-    function addChild() {
-      const wrapper = document.getElementById('children');
-      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
-      const div = document.createElement('div');
-      div.className = 'child-section';
-      div.innerHTML = template;
-      wrapper.appendChild(div);
-      childCount++;
-      document.getElementById('children_count').value = childCount;
-    }
-  </script>
 </head>
 <body>
   <h1>Loft Country Camp Registration</h1>
@@ -34,76 +21,7 @@
     <label>Phone: <input name="phone" required></label>
 
     <input type="hidden" id="children_count" name="children_count" value="1">
-
-    <div id="children">
-      <div class="child-section">
-        <h2>Camper 0</h2>
-        <label>First and Last Name: <input name="child_0_name" required></label>
-        <label>Address: <input name="child_0_address" required></label>
-        <label>Gender:
-          <select name="child_0_gender" required>
-            <option value="">Select</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </label>
-        <label>Birthdate: <input type="date" name="child_0_birthdate" required></label>
-        <label>Camps your child is enrolled in:<br>
-          <select name="child_0_weeks" multiple size="6" required>
-            <option>July 7–10</option>
-            <option>July 14–17</option>
-            <option>July 21–25 (All Girls)</option>
-            <option>July 28–31</option>
-            <option>August 11–14</option>
-            <option>August 18–21</option>
-            <option>July 3–4 (Morning Camp)</option>
-            <option>August 5–6 (Morning Camp)</option>
-            <option>August 7–8 (Morning Camp)</option>
-          </select>
-        </label>
-        <label>Did you purchase optional Friday?
-          <select name="child_0_friday">
-            <option value="">N/A</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </label>
-        <label>Medical Number: <input name="child_0_medical_number"></label>
-        <label>Are immunizations up to date?
-          <select name="child_0_immunizations">
-            <option value="">Select</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </label>
-        <label>Medical Conditions:<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Asthma"> Asthma<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Autism Spectrum"> Autism Spectrum<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="ADD/ADHD"> ADD/ADHD<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Chronic Health Condition"> Chronic Health Condition<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Diabetes"> Diabetes<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Epilepsy"> Epilepsy<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Gross Motor Difficulties"> Gross Motor Difficulties<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Slow Processing"> Slow Processing<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Speech Delay"> Speech Delay<br>
-          <input type="checkbox" name="child_0_medical_conditions" value="Other"> Other
-        </label>
-        <label>If other, please explain: <input name="child_0_medical_other"></label>
-        <label>Allergic reaction (items they may be allergic to):<br>
-          <textarea name="child_0_allergies"></textarea>
-        </label>
-        <label>Does your child receive any additional support at school or home?<br>
-          <textarea name="child_0_support"></textarea>
-        </label>
-        <label>Permission for over-the-counter medications?<br>
-          <textarea name="child_0_otc_permission"></textarea>
-        </label>
-        <label>Emergency Contact Name: <input name="child_0_emergency_contact" required></label>
-        <label>Emergency Contact Relationship: <input name="child_0_emergency_relation" required></label>
-        <label>Emergency Contact Phone: <input name="child_0_emergency_phone" required></label>
-      </div>
-    </div>
+    <div id="children"></div>
 
     <button type="button" onclick="addChild()">Add Another Child</button>
 
@@ -131,5 +49,92 @@
 
     <button type="submit">Submit Registration</button>
   </form>
+
+  <script type="text/template" id="child_template">
+    <div class="child-section">
+      <h2>Camper __INDEX__</h2>
+      <label>First and Last Name: <input name="child___INDEX__name" required></label>
+      <label>Address: <input name="child___INDEX__address" required></label>
+      <label>Gender:
+        <select name="child___INDEX__gender" required>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Birthdate: <input type="date" name="child___INDEX__birthdate" required></label>
+      <label>Camps your child is enrolled in:<br>
+        <select name="child___INDEX__weeks" multiple size="6" required>
+          <option>July 7–10</option>
+          <option>July 14–17</option>
+          <option>July 21–25 (All Girls)</option>
+          <option>July 28–31</option>
+          <option>August 11–14</option>
+          <option>August 18–21</option>
+          <option>July 3–4 (Morning Camp)</option>
+          <option>August 5–6 (Morning Camp)</option>
+          <option>August 7–8 (Morning Camp)</option>
+        </select>
+      </label>
+      <label>Did you purchase optional Friday?
+        <select name="child___INDEX__friday">
+          <option value="">N/A</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </label>
+      <label>Medical Number: <input name="child___INDEX__medical_number"></label>
+      <label>Are immunizations up to date?
+        <select name="child___INDEX__immunizations">
+          <option value="">Select</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </label>
+      <label>Medical Conditions:<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Asthma"> Asthma<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Autism Spectrum"> Autism Spectrum<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="ADD/ADHD"> ADD/ADHD<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Chronic Health Condition"> Chronic Health Condition<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Diabetes"> Diabetes<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Epilepsy"> Epilepsy<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Gross Motor Difficulties"> Gross Motor Difficulties<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Slow Processing"> Slow Processing<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Speech Delay"> Speech Delay<br>
+        <input type="checkbox" name="child___INDEX__medical_conditions" value="Other"> Other
+      </label>
+      <label>If other, please explain: <input name="child___INDEX__medical_other"></label>
+      <label>Allergic reaction (items they may be allergic to):<br>
+        <textarea name="child___INDEX__allergies"></textarea>
+      </label>
+      <label>Does your child receive any additional support at school or home?<br>
+        <textarea name="child___INDEX__support"></textarea>
+      </label>
+      <label>Permission for over-the-counter medications?<br>
+        <textarea name="child___INDEX__otc_permission"></textarea>
+      </label>
+      <label>Emergency Contact Name: <input name="child___INDEX__emergency_contact" required></label>
+      <label>Emergency Contact Relationship: <input name="child___INDEX__emergency_relation" required></label>
+      <label>Emergency Contact Phone: <input name="child___INDEX__emergency_phone" required></label>
+    </div>
+  </script>
+
+  <script>
+    let childCount = 1;
+    function addChild() {
+      const wrapper = document.getElementById('children');
+      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
+      const div = document.createElement('div');
+      div.className = 'child-section';
+      div.innerHTML = template;
+      wrapper.appendChild(div);
+      childCount++;
+      document.getElementById('children_count').value = childCount;
+    }
+    window.onload = function() {
+      addChild();
+    };
+  </script>
 </body>
 </html>
