@@ -8,7 +8,7 @@
       background: #f0f0f0;
       padding: 20px;
     }
-    h1, h2 {
+    h1 {
       color: #2c3e50;
     }
     .child-section {
@@ -37,13 +37,10 @@
       border-radius: 6px;
       cursor: pointer;
     }
-    button:hover {
-      background: #219150;
-    }
     .waiver-box {
+      margin-top: 30px;
       background: #fff;
       padding: 15px;
-      margin-top: 30px;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
@@ -65,15 +62,94 @@
 <body>
   <h1>Loft Country Camp Registration</h1>
   <form method="POST" action="/submit">
-    <label>Parent Name: <input name="parent_name" required></label>
+    <label>Parent or Guardian Name: <input name="parent_name" required></label>
     <label>Email: <input type="email" name="email" required></label>
     <label>Phone: <input name="phone" required></label>
 
     <input type="hidden" id="children_count" name="children_count" value="1">
     <div id="children">
       <div class="child-section">
-        <label>Camper Name: <input name="child_0_name" required></label>
-        <label>Age: <input type="number" name="child_0_age" required></label>
-        <label>Emergency Contact Name: <input name="child_0_emergency_contact" required></label>
+        <label>Child Full Name: <input name="child_0_name" required></label>
+        <label>Address: <input name="child_0_address" required></label>
+        <label>Gender: 
+          <select name="child_0_gender" required>
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </label>
+        <label>Birthdate: <input type="date" name="child_0_birthdate" required></label>
+        <label>Camp Weeks:<br>
+          <select name="child_0_weeks" multiple required size="6">
+            <option value="July 7–10">July 7–10</option>
+            <option value="July 14–17">July 14–17</option>
+            <option value="July 21–25 (All Girls)">July 21–25 (All Girls)</option>
+            <option value="July 28–31">July 28–31</option>
+            <option value="August 11–14">August 11–14</option>
+            <option value="August 18–21">August 18–21</option>
+          </select>
+        </label>
+        <label>Purchased Optional Friday? 
+          <select name="child_0_friday">
+            <option value="">Select</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option>N/A</option>
+          </select>
+        </label>
+        <label>Medical Number: <input name="child_0_medical_number"></label>
+        <label>Are immunizations up to date? 
+          <select name="child_0_immunizations">
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </label>
+        <label>Medical Conditions:</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Asthma"> Asthma</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Autism Spectrum"> Autism Spectrum</label>
+        <label><input type="checkbox" name="child_0_conditions" value="ADD/ADHD"> ADD/ADHD</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Chronic Health Condition"> Chronic Health Condition</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Diabetes"> Diabetes</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Epilepsy"> Epilepsy</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Gross Motor Difficulties"> Gross Motor Difficulties</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Slow Processing"> Slow Processing</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Speech Delay"> Speech Delay</label>
+        <label><input type="checkbox" name="child_0_conditions" value="Other"> Other</label>
+        <label>If "Other", please explain: <textarea name="child_0_conditions_other"></textarea></label>
+        <label>Allergies: <textarea name="child_0_allergies"></textarea></label>
+        <label>Additional Support Needs: <textarea name="child_0_support"></textarea></label>
+        <label>Permission for OTC meds: <textarea name="child_0_otc_permission"></textarea></label>
+        <label>Emergency Contact Name: <input name="child_0_emergency_name" required></label>
+        <label>Emergency Contact Relationship: <input name="child_0_emergency_relationship" required></label>
         <label>Emergency Contact Phone: <input name="child_0_emergency_phone" required></label>
-        <label>Al
+      </div>
+    </div>
+    <button type="button" onclick="addChild()">Add Another Child</button>
+
+    <div class="waiver-box">
+      <p><strong>Waiver Agreement:</strong><br>
+      I will not hold Loft Country or any Camp staff responsible for any accidents or injuries that may occur during this event. I acknowledge and understand that if any behavioral problems occur, I will be notified to pick up my child.</p>
+      <label><input type="checkbox" name="waiver" required> I agree</label>
+    </div>
+
+    <label>How did you hear about us?<br>
+      <select name="referral_source" required>
+        <option>Flyer in mail</option>
+        <option>Parade</option>
+        <option>School Field Trip</option>
+        <option>Word of mouth</option>
+        <option>Facebook</option>
+        <option>Booth at fair/trade show</option>
+        <option>Google search</option>
+        <option>Other</option>
+      </select>
+    </label>
+
+    <label>This Registration Was Completed By - First Name: <input name="completed_by_first" required></label>
+    <label>Last Name: <input name="completed_by_last" required></label>
+    <label>Send Confirmation Email To: <input type="email" name="confirmation_email" required></label>
+
+    <button type="submit">Submit Registration</button>
+  </form>
+</body>
+</html>
