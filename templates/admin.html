@@ -1,4 +1,68 @@
-Loft Country Camp Registrations
-Download CSV {% for header in headers %} {% endfor %} {% for row in rows %} {% for col in row %} {% endfor %} {% endfor %}
-{{ header }}
-{{ col }}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - Loft Country Camps</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #27ae60;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .download-link {
+      margin-top: 15px;
+      display: inline-block;
+      background: #2980b9;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    .download-link:hover {
+      background: #1f6399;
+    }
+  </style>
+</head>
+<body>
+  <h1>Loft Country Camp Registrations</h1>
+  <a class="download-link" href="/admin/download">Download CSV</a>
+  <table>
+    <thead>
+      <tr>
+        {% for header in headers %}
+          <th>{{ header }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          {% for col in row %}
+            <td>{{ col }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
