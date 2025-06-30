@@ -1,130 +1,88 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Loft Country Camp Registration</title>
-  <style>
-    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
-    h1, h2 { color: #2c3e50; }
-    .child-section { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
-    label { display: block; margin-top: 10px; }
-    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
-    button { margin-top: 20px; padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; }
-    button:hover { background: #219150; }
-    .waiver-box { background: #fff; padding: 15px; margin-top: 30px; border: 1px solid #ccc; border-radius: 6px; }
-  </style>
-  <script>
-    let childCount = 1;
-    function addChild() {
-      const wrapper = document.getElementById('children');
-      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
-      const div = document.createElement('div');
-      div.className = 'child-section';
-      div.innerHTML = template;
-      wrapper.appendChild(div);
-      childCount++;
-      document.getElementById('children_count').value = childCount;
-    }
-  </script>
-</head>
-<body>
-  <h1>Loft Country Camp Registration</h1>
-  <form method="POST" action="/submit">
-    <label>Parent or Guardian Name: <input name="parent_name" required></label>
-    <label>Email: <input type="email" name="email" required></label>
-    <label>Phone: <input name="phone" required></label>
-    <input type="hidden" id="children_count" name="children_count" value="1">
-    <div id="children"></div>
-    <button type="button" onclick="addChild()">Add Another Child</button>
-    <div class="waiver-box">
-      <h2>Waiver</h2>
-      <p>I will not hold Loft Country or any Camp staff responsible for any accidents or injuries that may occur during this event. I acknowledge and understand that if any behavioral problems occur, I will be notified to pick up my child.</p>
-      <label><input type="checkbox" name="waiver" required> I agree to the above terms</label>
-    </div>
-    <label>Where did you hear about us?
-      <select name="referral_source" required>
-        <option value="">Select one</option>
-        <option>Flyer in mail</option>
-        <option>Parade</option>
-        <option>School Field Trip</option>
-        <option>Word of mouth</option>
-        <option>Facebook</option>
-        <option>Booth at fair/trade show</option>
-        <option>Google search</option>
-        <option>Other</option>
-      </select>
-    </label>
-    <p><strong>Cowboy Chapel:</strong> Loft Country has Cowboy Chapel daily for 15 minutes consisting of uplifting messages and skits in our day camps and overnight camps for ages 7–12. The theme is always "God loves all his children and has an amazing plan for their lives." Anti-bullying is also addressed during this time.</p>
-    <button type="submit">Submit Registration</button>
-  </form>
+from flask import Flask, render_template, request, redirect, url_for, send_file
+import csv
+import os
+from datetime import datetime
 
-  <script type="text/template" id="child_template">
-    <div class="child-section">
-      <h2>Camper __INDEX__</h2>
-      <label>First and Last Name: <input name="child___INDEX__name" required></label>
-      <label>Address: <input name="child___INDEX__address" required></label>
-      <label>Gender:
-        <select name="child___INDEX__gender" required>
-          <option value="">Select</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
-      </label>
-      <label>Birthdate: <input type="date" name="child___INDEX__birthdate" required></label>
-      <label>Camps your child is enrolled in:<br>
-        <select name="child___INDEX__weeks" multiple size="6" required>
-          <option>July 7–10</option>
-          <option>July 14–17</option>
-          <option>July 21–25 (All Girls)</option>
-          <option>July 28–31</option>
-          <option>August 11–14</option>
-          <option>August 18–21</option>
-          <option>July 3–4 (Morning Camp)</option>
-          <option>August 5–6 (Morning Camp)</option>
-          <option>August 7–8 (Morning Camp)</option>
-        </select>
-      </label>
-      <label>Did you purchase optional Friday?
-        <select name="child___INDEX__friday">
-          <option value="">N/A</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-      </label>
-      <label>Medical Number: <input name="child___INDEX__medical_number"></label>
-      <label>Are immunizations up to date?
-        <select name="child___INDEX__immunizations">
-          <option value="">Select</option>
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-      </label>
-      <label>Medical Conditions:<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Asthma"> Asthma<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Autism Spectrum"> Autism Spectrum<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="ADD/ADHD"> ADD/ADHD<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Chronic Health Condition"> Chronic Health Condition<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Diabetes"> Diabetes<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Epilepsy"> Epilepsy<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Gross Motor Difficulties"> Gross Motor Difficulties<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Slow Processing"> Slow Processing<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Speech Delay"> Speech Delay<br>
-        <input type="checkbox" name="child___INDEX__medical_conditions" value="Other"> Other
-      </label>
-      <label>If other, please explain: <input name="child___INDEX__medical_other"></label>
-      <label>Allergic reaction (items they may be allergic to):<br>
-        <textarea name="child___INDEX__allergies"></textarea>
-      </label>
-      <label>Does your child receive any additional support at school or home?<br>
-        <textarea name="child___INDEX__support"></textarea>
-      </label>
-      <label>Permission for over-the-counter medications?<br>
-        <textarea name="child___INDEX__otc_permission"></textarea>
-      </label>
-      <label>Emergency Contact Name: <input name="child___INDEX__emergency_contact" required></label>
-      <label>Emergency Contact Relationship: <input name="child___INDEX__emergency_relation" required></label>
-      <label>Emergency Contact Phone: <input name="child___INDEX__emergency_phone" required></label>
-    </div>
-  </script>
-</body>
-</html>
+app = Flask(__name__)
+
+ADMIN_PASSWORD = "loftadmin"
+DATA_FILE = "registrations.csv"
+
+@app.route("/")
+def index():
+    return render_template("form.html")
+
+@app.route("/submit", methods=["POST"])
+def submit():
+    parent_name = request.form.get("parent_name")
+    email = request.form.get("email")
+    phone = request.form.get("phone")
+    referral = request.form.get("referral_source")
+    waiver = request.form.get("waiver") == "on"
+    children_count = int(request.form.get("children_count"))
+
+    rows = []
+    for i in range(children_count):
+        prefix = f"child_{i}_"
+        child = {
+            "Parent Name": parent_name,
+            "Email": email,
+            "Phone": phone,
+            "Referral Source": referral,
+            "Child Name": request.form.get(prefix + "name"),
+            "Address": request.form.get(prefix + "address"),
+            "Gender": request.form.get(prefix + "gender"),
+            "Birthdate": request.form.get(prefix + "birthdate"),
+            "Weeks": ", ".join(request.form.getlist(prefix + "weeks")),
+            "Optional Friday": request.form.get(prefix + "friday"),
+            "Medical Number": request.form.get(prefix + "medical_number"),
+            "Immunizations": request.form.get(prefix + "immunizations"),
+            "Medical Conditions": ", ".join(request.form.getlist(prefix + "medical_conditions")),
+            "Other Condition": request.form.get(prefix + "medical_other"),
+            "Allergies": request.form.get(prefix + "allergies"),
+            "Support Needs": request.form.get(prefix + "support"),
+            "OTC Permission": request.form.get(prefix + "otc_permission"),
+            "Emergency Contact": request.form.get(prefix + "emergency_contact"),
+            "Emergency Relation": request.form.get(prefix + "emergency_relation"),
+            "Emergency Phone": request.form.get(prefix + "emergency_phone"),
+            "Waiver Signed": waiver,
+            "Timestamp": datetime.now().isoformat()
+        }
+        rows.append(child)
+
+    file_exists = os.path.isfile(DATA_FILE)
+    with open(DATA_FILE, "a", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+        if not file_exists:
+            writer.writeheader()
+        writer.writerows(rows)
+
+    return render_template("thanks.html")
+
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if request.method == "POST":
+        if request.form.get("password") == ADMIN_PASSWORD:
+            return redirect(url_for("admin_view"))
+        return render_template("admin_login.html", error="Invalid password")
+    return render_template("admin_login.html")
+
+@app.route("/admin/view")
+def admin_view():
+    if not os.path.exists(DATA_FILE):
+        return "No registrations yet."
+    with open(DATA_FILE, newline="") as f:
+        reader = csv.reader(f)
+        rows = list(reader)
+    headers = rows[0]
+    data = rows[1:]
+    return render_template("admin.html", headers=headers, rows=data)
+
+@app.route("/admin/download")
+def admin_download():
+    if not os.path.exists(DATA_FILE):
+        return "No data available."
+    return send_file(DATA_FILE, as_attachment=True)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
