@@ -12,6 +12,22 @@
     button:hover { background: #219150; }
     .waiver-box { background: #fff; padding: 15px; margin-top: 30px; border: 1px solid #ccc; border-radius: 6px; }
   </style>
+  <script>
+    let childCount = 1;
+    function addChild() {
+      const wrapper = document.getElementById('children');
+      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
+      const div = document.createElement('div');
+      div.className = 'child-section';
+      div.innerHTML = template;
+      wrapper.appendChild(div);
+      childCount++;
+      document.getElementById('children_count').value = childCount;
+    }
+    window.onload = function() {
+      addChild();
+    };
+  </script>
 </head>
 <body>
   <h1>Loft Country Camp Registration</h1>
@@ -118,23 +134,6 @@
       <label>Emergency Contact Relationship: <input name="child___INDEX__emergency_relation" required></label>
       <label>Emergency Contact Phone: <input name="child___INDEX__emergency_phone" required></label>
     </div>
-  </script>
-
-  <script>
-    let childCount = 1;
-    function addChild() {
-      const wrapper = document.getElementById('children');
-      const template = document.getElementById('child_template').innerHTML.replace(/__INDEX__/g, childCount);
-      const div = document.createElement('div');
-      div.className = 'child-section';
-      div.innerHTML = template;
-      wrapper.appendChild(div);
-      childCount++;
-      document.getElementById('children_count').value = childCount;
-    }
-    window.onload = function() {
-      addChild();
-    };
   </script>
 </body>
 </html>

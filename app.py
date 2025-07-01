@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file
-import csv
-import os
+import csv, os
 from datetime import datetime
 
 app = Flask(__name__)
-
 ADMIN_PASSWORD = "loftadmin"
 DATA_FILE = "registrations.csv"
 
@@ -21,42 +19,39 @@ def submit():
     waiver = request.form.get("waiver") == "on"
     children_count = int(request.form.get("children_count"))
 
-    rows = []
-    for i in range(children_count):
-        prefix = f"child_{i}_"
-        child = {
-            "Parent Name": parent_name,
-            "Email": email,
-            "Phone": phone,
-            "Referral Source": referral,
-            "Child Name": request.form.get(prefix + "name"),
-            "Address": request.form.get(prefix + "address"),
-            "Gender": request.form.get(prefix + "gender"),
-            "Birthdate": request.form.get(prefix + "birthdate"),
-            "Weeks": ", ".join(request.form.getlist(prefix + "weeks")),
-            "Optional Friday": request.form.get(prefix + "friday"),
-            "Medical Number": request.form.get(prefix + "medical_number"),
-            "Immunizations": request.form.get(prefix + "immunizations"),
-            "Medical Conditions": ", ".join(request.form.getlist(prefix + "medical_conditions")),
-            "Other Condition": request.form.get(prefix + "medical_other"),
-            "Allergies": request.form.get(prefix + "allergies"),
-            "Support Needs": request.form.get(prefix + "support"),
-            "OTC Permission": request.form.get(prefix + "otc_permission"),
-            "Emergency Contact": request.form.get(prefix + "emergency_contact"),
-            "Emergency Relation": request.form.get(prefix + "emergency_relation"),
-            "Emergency Phone": request.form.get(prefix + "emergency_phone"),
-            "Waiver Signed": waiver,
-            "Timestamp": datetime.now().isoformat()
-        }
-        rows.append(child)
-
-    file_exists = os.path.isfile(DATA_FILE)
+    file_exists = os.path.exists(DATA_FILE)
     with open(DATA_FILE, "a", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+        writer = csv.writer(f)
         if not file_exists:
-            writer.writeheader()
-        writer.writerows(rows)
-
+            writer.writerow([
+                "Timestamp", "Parent Name", "Email", "Phone", "Referral Source", "Waiver",
+                "Child Name", "Address", "Gender", "Birthdate", "Weeks", "Friday",
+                "Medical Number", "Immunizations", "Medical Conditions", "Medical Other",
+                "Allergies", "Support", "OTC Permission",
+                "Emergency Contact", "Relationship", "Emergency Phone"
+            ])
+        for i in range(children_count):
+            prefix = f"child_{i}_"
+            row = [
+                datetime.now().isoformat(), parent_name, email, phone, referral, waiver,
+                request.form.get(prefix + "name"),
+                request.form.get(prefix + "address"),
+                request.form.get(prefix + "gender"),
+                request.form.get(prefix + "birthdate"),
+                "; ".join(request.form.getlist(prefix + "weeks")),
+                request.form.get(prefix + "friday"),
+                request.form.get(prefix + "medical_number"),
+                request.form.get(prefix + "immunizations"),
+                "; ".join(request.form.getlist(prefix + "medical_conditions")),
+                request.form.get(prefix + "medical_other"),
+                request.form.get(prefix + "allergies"),
+                request.form.get(prefix + "support"),
+                request.form.get(prefix + "otc_permission"),
+                request.form.get(prefix + "emergency_contact"),
+                request.form.get(prefix + "emergency_relation"),
+                request.form.get(prefix + "emergency_phone")
+            ]
+            writer.writerow(row)
     return render_template("thanks.html")
 
 @app.route("/admin", methods=["GET", "POST"])
@@ -71,17 +66,14 @@ def admin():
 def admin_view():
     if not os.path.exists(DATA_FILE):
         return "No registrations yet."
-    with open(DATA_FILE, newline="") as f:
-        reader = csv.reader(f)
-        rows = list(reader)
-    headers = rows[0]
-    data = rows[1:]
-    return render_template("admin.html", headers=headers, rows=data)
+    with open(DATA_FILE, "r") as f:
+        lines = list(csv.reader(f))
+    return render_template("admin.html", headers=lines[0], rows=lines[1:])
 
 @app.route("/admin/download")
 def admin_download():
     if not os.path.exists(DATA_FILE):
-        return "No data available."
+        return "No data."
     return send_file(DATA_FILE, as_attachment=True)
 
 if __name__ == "__main__":
