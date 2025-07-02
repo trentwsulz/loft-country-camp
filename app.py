@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 from fpdf import FPDF
+import os
 
 app = Flask(__name__)
 
-# Dummy CSV file to simulate registration data
+# Path to the CSV file where registration data is stored
 REGISTRATION_FILE = 'registrations.csv'
 
-# Home Route (Admin Login)
+# Admin Login Route
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
@@ -24,14 +25,13 @@ def admin_login():
 # Admin Panel Route
 @app.route('/admin/panel', methods=['GET', 'POST'])
 def admin_panel():
-    # Handle adding new camper
     if request.method == 'POST':
         camper_name = request.form.get('camper_name')
         camp_type = request.form.get('camp_type')
         add_camper(camper_name, camp_type)
         return redirect(url_for('admin_panel'))
 
-    # Display current registrations in the admin panel
+    # Display the current registrations in the admin panel
     registrations = pd.read_csv(REGISTRATION_FILE)
     return render_template('admin.html', registrations=registrations)
 
@@ -43,24 +43,4 @@ def add_camper(camper_name, camp_type):
 # Function to Generate PDF of Registrations
 @app.route('/admin/generate_pdf', methods=['GET'])
 def generate_pdf():
-    registrations = pd.read_csv(REGISTRATION_FILE)
-    pdf = FPDF()
-    pdf.add_page()
-
-    # Add title
-    pdf.set_font('Arial', 'B', 16)
-    pdf.cell(200, 10, txt="Camp Registrations", ln=True, align='C')
-
-    # Add registration data
-    pdf.set_font('Arial', '', 12)
-    for index, row in registrations.iterrows():
-        pdf.cell(200, 10, txt=f"{row['camper_name']} - {row['camp_type']}", ln=True)
-
-    # Save PDF to a file
-    pdf_output = 'registrations_report.pdf'
-    pdf.output(pdf_output)
-
-    return f"PDF Generated: <a href='{pdf_output}' download>Click here to download the PDF</a>"
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    registrations = pd.read_csv(REGISTRATION_FILE
