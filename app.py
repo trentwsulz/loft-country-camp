@@ -79,5 +79,6 @@ def thanks():
     return render_template('thanks.html')  # Show a thank you page after submission
 
 # Run the app with correct host and port for deployment on Render
-if __name__ == "__main__":
+    if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
