@@ -3,18 +3,17 @@ import pandas as pd
 from fpdf import FPDF
 import os
 
-# Initialize the Flask app
 app = Flask(__name__)
 
 # Path to the CSV file where registration data is stored
 REGISTRATION_FILE = 'registrations.csv'
 
-# Home Route (Root Page)
+# Home Route (Root Page) - This should be at the very top
 @app.route('/')
 def home():
     return render_template('home.html')  # This will render the 'home.html' template
 
-# Admin Login Route
+# Admin Login Route - Should be after the home route
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
@@ -28,7 +27,7 @@ def admin_login():
             return "Invalid credentials, please try again.", 403
     return render_template('admin_login.html')
 
-# Admin Panel Route
+# Admin Panel Route - Should come after login
 @app.route('/admin/panel', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
@@ -37,7 +36,6 @@ def admin_panel():
         add_camper(camper_name, camp_type)
         return redirect(url_for('admin_panel'))
 
-    # Display the current registrations in the admin panel
     registrations = pd.read_csv(REGISTRATION_FILE)
     return render_template('admin.html', registrations=registrations)
 
@@ -53,20 +51,32 @@ def generate_pdf():
     pdf = FPDF()
     pdf.add_page()
 
-    # Add title
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(200, 10, txt="Camp Registrations", ln=True, align='C')
 
-    # Add registration data
     pdf.set_font('Arial', '', 12)
     for index, row in registrations.iterrows():
         pdf.cell(200, 10, txt=f"{row['camper_name']} - {row['camp_type']}", ln=True)
 
-    # Save PDF to a file
     pdf_output = 'registrations_report.pdf'
     pdf.output(pdf_output)
 
     return f"PDF Generated: <a href='{pdf_output}' download>Click here to download the PDF</a>"
+
+# Route for Camper Registration Form - Should be after the admin routes
+@app.route('/form', methods=['GET', 'POST'])
+def form():
+    if request.method == 'POST':
+        camper_name = request.form['camper_name']
+        camp_type = request.form['camp_type']
+        add_camper(camper_name, camp_type)
+        return redirect(url_for('thanks'))  # Redirect to thanks page after form submission
+    return render_template('form.html')
+
+# Thanks Page Route - After the form route
+@app.route('/thanks')
+def thanks():
+    return render_template('thanks.html')  # Show a thank you page after submission
 
 # Run the app with correct host and port for deployment on Render
 if __name__ == "__main__":
