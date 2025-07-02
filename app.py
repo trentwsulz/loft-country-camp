@@ -43,4 +43,25 @@ def add_camper(camper_name, camp_type):
 # Function to Generate PDF of Registrations
 @app.route('/admin/generate_pdf', methods=['GET'])
 def generate_pdf():
-    registrations = pd.read_csv(REGISTRATION_FILE
+    registrations = pd.read_csv(REGISTRATION_FILE)
+    pdf = FPDF()
+    pdf.add_page()
+
+    # Add title
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(200, 10, txt="Camp Registrations", ln=True, align='C')
+
+    # Add registration data
+    pdf.set_font('Arial', '', 12)
+    for index, row in registrations.iterrows():
+        pdf.cell(200, 10, txt=f"{row['camper_name']} - {row['camp_type']}", ln=True)
+
+    # Save PDF to a file
+    pdf_output = 'registrations_report.pdf'
+    pdf.output(pdf_output)
+
+    return f"PDF Generated: <a href='{pdf_output}' download>Click here to download the PDF</a>"
+
+# Run the app with correct host and port for deployment on Render
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
