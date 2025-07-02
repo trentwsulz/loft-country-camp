@@ -1,68 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Panel - Loft Country Camps</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f9f9f9;
-      padding: 20px;
-    }
-    h1 {
-      color: #2c3e50;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #27ae60;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    .download-link {
-      margin-top: 15px;
-      display: inline-block;
-      background: #2980b9;
-      color: white;
-      padding: 8px 12px;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-    .download-link:hover {
-      background: #1f6399;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
 </head>
 <body>
-  <h1>Loft Country Camp Registrations</h1>
-  <a class="download-link" href="/admin/download">Download CSV</a>
-  <table>
-    <thead>
-      <tr>
-        {% for header in headers %}
-          <th>{{ header }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in rows %}
+    <h1>Admin Panel</h1>
+
+    <!-- Form to Add Camper -->
+    <form action="/admin/panel" method="POST">
+        <label for="camper_name">Camper Name:</label>
+        <input type="text" id="camper_name" name="camper_name" required><br><br>
+
+        <label for="camp_type">Camp Type:</label>
+        <select id="camp_type" name="camp_type">
+            <option value="day_camp">Day Camp</option>
+            <option value="overnight_camp">Overnight Camp</option>
+        </select><br><br>
+
+        <button type="submit">Add Camper</button>
+    </form>
+
+    <h2>Current Registrations</h2>
+    <table border="1">
         <tr>
-          {% for col in row %}
-            <td>{{ col }}</td>
-          {% endfor %}
+            <th>Camper Name</th>
+            <th>Camp Type</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        {% for index, row in registrations.iterrows() %}
+        <tr>
+            <td>{{ row['camper_name'] }}</td>
+            <td>{{ row['camp_type'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Button to Generate PDF -->
+    <br><br>
+    <a href="/admin/generate_pdf">
+        <button>Generate PDF of Registrations</button>
+    </a>
 </body>
 </html>
