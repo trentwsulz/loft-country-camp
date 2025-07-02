@@ -3,10 +3,16 @@ import pandas as pd
 from fpdf import FPDF
 import os
 
+# Initialize the Flask app
 app = Flask(__name__)
 
 # Path to the CSV file where registration data is stored
 REGISTRATION_FILE = 'registrations.csv'
+
+# Home Route (Root Page)
+@app.route('/')
+def home():
+    return render_template('home.html')  # This will render the 'home.html' template
 
 # Admin Login Route
 @app.route('/admin', methods=['GET', 'POST'])
